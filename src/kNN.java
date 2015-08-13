@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,17 +21,15 @@ public class kNN {
 		this.filePathS = fielPathS;
 	}
 	
-	public static ArrayList Reader(String filePath){
+	public static ArrayList<String> Reader(String filePath){
 		File file = new File(filePath);
 		BufferedReader reader = null;
-		ArrayList readList = new ArrayList();
+		ArrayList<String> readList = new ArrayList<String>();
 		try{
 			reader = new BufferedReader(new FileReader(file));
 			String tempsString = null;
-			int line = 1;
 			while((tempsString = reader.readLine())!=null){
 				readList.add(tempsString);
-				line++;
 			}
 		}catch(IOException e){
 			e.printStackTrace();
@@ -47,24 +44,9 @@ public class kNN {
 		}
 		return readList;
 	}
-	
-/*	//等会儿注释掉
-	public static Map distMap(ArrayList R, ArrayList S){
-		Map rMap = new HashMap();
-		for(int i = 0; i < R.size(); i++){
-			Map riMap = new HashMap();
-			for(int j = 0; j<S.size(); j++){
-				int dist = Math.abs(Integer.valueOf((String) R.get(i))-Integer.valueOf((String) S.get(j)));
-				riMap.put(S.get(j), dist);
-			}
-			rMap.put(R.get(i), riMap);
-		}
-		return rMap;
-	}
-	//一直到这儿
-*/	
-	public static Map<String, Integer> distMap4R(String r, ArrayList S){
-		Map dist41RMap  = new HashMap();
+		
+	public static Map<String, Integer> distMap4R(String r, ArrayList<String> S){
+		Map<String, Integer> dist41RMap  = new HashMap<String, Integer>();
 		for(int i=0; i<S.size(); i++){
 			int dist = Math.abs(Integer.valueOf(r)-Integer.valueOf((String)S.get(i)));
 			dist41RMap.put(S.get(i), dist);
@@ -82,7 +64,7 @@ public class kNN {
 				return (o1.getValue()-o2.getValue());
 			}
 		});
-		Map<String, Integer> kNNMap4R = new HashMap();
+		Map<String, Integer> kNNMap4R = new HashMap<String, Integer>();
 		for(int i=0; i<k; i++){
 			String key = (String)list.get(i).getKey();
 			Integer value = (Integer)list.get(i).getValue();
@@ -92,8 +74,8 @@ public class kNN {
 	}
 
 	
-	public static Map kNN4All(ArrayList R, ArrayList S){
-		Map<String, Map<String, Integer>> finalMap = new HashMap();
+	public Map<String, Map<String, Integer>> kNN4All(ArrayList<String> R, ArrayList<String> S){
+		Map<String, Map<String, Integer>> finalMap = new HashMap<String, Map<String, Integer>>();
 		for(int i=0; i<R.size(); i++){
 			finalMap.put((String) R.get(i), topKSort(distMap4R((String) R.get(i),S), k));
 		}
@@ -102,10 +84,10 @@ public class kNN {
 	
 	
 	public static void main(String[] args){
-		kNN test = new kNN(3, "/Users/gsong/Documents/workspace/PracticeJava/R.txt", "/Users/gsong/Documents/workspace/PracticeJava/S.txt");
-		Map testMap = test.kNN4All(Reader(kNN.filePathR), Reader(kNN.filePathS));
-		for(int i=0; i< test.Reader(test.filePathR).size(); i++){
-			System.out.println("R is: "+Reader(test.filePathR).get(i)+" And its top "+test.k+" neighbors are: "+testMap.get(Reader(test.filePathR).get(i)));
+		kNN test = new kNN(3, "/Users/songsophie/Documents/workspace/kNN/R.txt", "/Users/songsophie/Documents/workspace/kNN/S.txt");
+		Map<String, Map<String, Integer>> testMap = test.kNN4All(Reader(kNN.filePathR), Reader(kNN.filePathS));
+		for(int i=0; i< kNN.Reader(kNN.filePathR).size(); i++){
+			System.out.println("R is: "+Reader(kNN.filePathR).get(i)+" And its top "+kNN.k+" neighbors are: "+testMap.get(Reader(kNN.filePathR).get(i)));
 			System.out.println("##########");
 		}
 	}
