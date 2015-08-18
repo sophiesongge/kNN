@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,7 +65,7 @@ public class kNN {
 				return (o1.getValue()-o2.getValue());
 			}
 		});
-		Map<String, Integer> kNNMap4R = new HashMap<String, Integer>();
+		Map<String, Integer> kNNMap4R = new LinkedHashMap<String, Integer>();
 		for(int i=0; i<k; i++){
 			String key = (String)list.get(i).getKey();
 			Integer value = (Integer)list.get(i).getValue();
@@ -84,7 +85,7 @@ public class kNN {
 	
 	
 	public static void main(String[] args){
-		kNN test = new kNN(3, "/Users/songsophie/Documents/workspace/kNN/R.txt", "/Users/songsophie/Documents/workspace/kNN/S.txt");
+		kNN test = new kNN(3, "/Users/gsong/Documents/workspace/kNN/R.txt", "/Users/gsong/Documents/workspace/kNN/S.txt");
 		Map<String, Map<String, Integer>> testMap = test.kNN4All(Reader(kNN.filePathR), Reader(kNN.filePathS));
 		for(int i=0; i< kNN.Reader(kNN.filePathR).size(); i++){
 			System.out.println("R is: "+Reader(kNN.filePathR).get(i)+" And its top "+kNN.k+" neighbors are: "+testMap.get(Reader(kNN.filePathR).get(i)));
