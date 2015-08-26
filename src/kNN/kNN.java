@@ -42,21 +42,16 @@ public class kNN {
 				int id= Integer.parseInt(parts[0]);
 				/*System.out.print("id: "+parts[0]);
 				System.out.print(" x: "+parts[0+1]);
-				System.out.println(" y: "+parts[1+1]);*/
-				
-				int st = 1;
-				float[] coord = null;	
-				for (int i = 0; i < d; i++){
-					coord[i] = Float.valueOf(parts[st + i]);
-				}
-					
-				
-				
-/*				float[] coord = new float[d];
+				System.out.println(" y: "+parts[1+1]);*/				
+				float[] coord = new float[d];
 				for(int ii=0; ii<d; ii++){
-					coord[ii] = Float.valueOf(parts[1+ii]);
-
-				}*/
+					try{
+						coord[ii] = Float.valueOf(parts[1+ii]);
+					}catch(NumberFormatException ex){
+						
+					}
+					
+				}
 				
 				ListElem le = new ListElem(id, coord);
 				le.setId(id);
@@ -123,7 +118,7 @@ public class kNN {
 	
 	
 	public static void main(String[] args){
-		kNN test = new kNN(3, 2,  "/Users/gsong/Documents/workspace/kNN/data1.txt", "/Users/gsong/Documents/workspace/kNN/data2.txt");
+		kNN test = new kNN(3, 2,  "./data/test1.txt", "./data/test2.txt");
 		Map<Integer, Map<Integer, Float>> testMap = test.kNN4All(Reader(kNN.filePathR, kNN.d), Reader(kNN.filePathS, kNN.d));
 		for(int i=0; i<kNN.Reader(filePathR, k).size(); i++){
 			System.out.println("R is: "+Reader(kNN.filePathR, kNN.d).get(i).getId()+" And its top "+kNN.k+" neighbors are: "+testMap.get(Reader(kNN.filePathR, kNN.d).get(i).getId()).keySet().toString()+"\n With the distance of: "+testMap.get(Reader(kNN.filePathR, kNN.d).get(i).getId()));
