@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import kNN.ListElem;
+import kNN.RecordComparator;
 
 
 public class kNN {
@@ -161,14 +162,16 @@ public class kNN {
 	}
 	
 	
+	
 	public static void main(String[] args){
 		kNN test = new kNN(3, 2,  "./data/test1.txt", "./data/test2.txt");
+		ArrayList<ListElem> R = Reader(kNN.filePathR, kNN.d);
+		ArrayList<ListElem> S = Reader(kNN.filePathS, kNN.d);
 		Map<Integer, LinkedHashMap<Integer, Float>> testMap = test.kNN4All(Reader(kNN.filePathR, kNN.d), Reader(kNN.filePathS, kNN.d));
 		for(int i=0; i<kNN.Reader(filePathR, k).size(); i++){
 			System.out.println("R is: "+Reader(kNN.filePathR, kNN.d).get(i).getId()+" And its top "+kNN.k+" neighbors are: "+testMap.get(Reader(kNN.filePathR, kNN.d).get(i).getId()).keySet().toString()+"\n With the distance of: "+testMap.get(Reader(kNN.filePathR, kNN.d).get(i).getId()));
 			System.out.println("#################################");
 		}
-
 	}
 	
 }
