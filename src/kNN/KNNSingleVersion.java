@@ -9,8 +9,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.PriorityQueue;
+
+import kNN.RecordComparator;
+import kNN.ListResultR;
+import kNN.Element;
+import kNN.ListElemS;
 
 public class KNNSingleVersion{
 	private static int k;//the number of nearest neighbors
@@ -75,9 +79,7 @@ public class KNNSingleVersion{
 					}catch(NumberFormatException ex){
 						
 					}
-					
 				}
-				
 				Element le = new Element(id, coord);
 				le.setId(id);
 				le.setCoord(coord);
@@ -99,12 +101,12 @@ public class KNNSingleVersion{
 	
 	/**
 	 * 
-	 * @param r
-	 * @param S
-	 * @param d
+	 * @param r: an element in R
+	 * @param S: dataset S
+	 * @param d: dimensionality
 	 * @return
 	 */
-	public static ArrayList<ListElemS> distRListS(Element r, ArrayList<Element> S, int d){
+	public static ArrayList<ListElemS> distRListS(Element r, ArrayList<Element> S){
 		ArrayList<ListElemS> SWithDistance = new ArrayList<ListElemS>();
 		for(int i=0; i<S.size(); i++){
 			int sum = 0;
@@ -127,23 +129,20 @@ public class KNNSingleVersion{
 	 * @param k
 	 * @return
 	 */
-	public static ListResultR topKForOneR(Element r, ArrayList<Element> S, int k){
-		ArrayList<ListElemS> interm = new ArrayList<ListElemS>();
-		interm = distRListS(r, S, d);
-		ListResultR result41R = new ListResultR(r.getId(), r.getCoord());
-		
-		/*for(int i=0; i<interm.size()-1; i++){
-			RecordComparator rc = new RecordComparator();
-			rc.compare(interm.get(i), interm.get(i+1));
-		}*/
-		
-		
-		ArrayList<ListElemS> topKList = new ArrayList<ListElemS>();
-		for(int i=0; i<k; i++){
-			topKList.add(interm.get(i));
+	public static ListResultR topKForOneR(Element r, ArrayList<Element> S){
+		ArrayList<ListElemS> interm = distRListS(r, S);
+		ListResultR kNNQueueR = new ListResultR(r.getId(), r.getCoord());
+		RecordComparator rc = new RecordComparator();
+		PriorityQueue<ListElemS> knnQueue = new PriorityQueue<ListElemS>(k + 1, rc);
+		for(int i=0; i<interm.size(); i++){
+			knnQueue.add(interm.get(i));
 		}
-		result41R.setTopNeighbor(topKList);
-		return result41R;
+		ArrayList<ListElemS> kNNQueue = new ArrayList<ListElemS>();
+		for(int i=0; i<k; i++){
+			kNNQueue.add(i, knnQueue.poll());
+		}
+		kNNQueueR.setTopNeighbor(kNNQueue);
+		return kNNQueueR;
 	}
 	
 	/**
@@ -155,7 +154,7 @@ public class KNNSingleVersion{
 	public static ArrayList<ListResultR> kNNJoinRS(ArrayList<Element> R, ArrayList<Element> S){
 		ArrayList<ListResultR> result = new ArrayList<ListResultR>();
 		for(int i=0; i<R.size(); i++){
-			result.add(topKForOneR(R.get(i), S, k));
+			result.add(topKForOneR(R.get(i), S));
 		}
 		return result;
 	}
@@ -165,10 +164,11 @@ public class KNNSingleVersion{
 		ArrayList<Element> R = Reader(filePathR, d);
 		ArrayList<Element> S = Reader(filePathS, d);
 		ArrayList<ListResultR> result = kNNJoinRS(R, S);
-		
 		for(int i=0; i<result.size(); i++){
 			System.out.println(result.get(i).toString()+ "\n");
 		}
+		
+		
 		
 	}
 	

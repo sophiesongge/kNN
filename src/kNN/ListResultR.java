@@ -5,6 +5,7 @@
 package kNN;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class ListResultR{
 	private int id;
