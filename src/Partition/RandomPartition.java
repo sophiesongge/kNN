@@ -36,7 +36,7 @@ public class RandomPartition{
 		File file = new File(filePath+"/input");
 		fileList = PartitionBase.getFileList(file);
 		int fileID = 0;
-		ArrayList<Element> context = new ArrayList<Element>();
+		
 		
 		for(Iterator<String> iter = fileList.iterator(); iter.hasNext();){
 
@@ -58,8 +58,7 @@ public class RandomPartition{
 					newFile = PartitionBase.CreateFile(filePath+"/output/Random_Partition/"+partname+"_partition"+i+".txt");
 				}
 			}
-			
-			context = PartitionBase.Reader(path, d, 0); //这个是把文件每一行读出来变成一个记录，每个记录就是一个Element
+			ArrayList<Element> context = PartitionBase.Reader(path, d, 0); //这个是把文件每一行读出来变成一个记录，每个记录就是一个Element
 			
 			
 			/**
