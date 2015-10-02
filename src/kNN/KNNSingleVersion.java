@@ -160,7 +160,7 @@ public class KNNSingleVersion{
 	}
 	
 	public static void main(String[] args){
-		KNNSingleVersion knn = new KNNSingleVersion(3, 2, "./data/test1.txt", "./data/test2.txt");
+		KNNSingleVersion knn = new KNNSingleVersion(5, 2, "./data/databig1.txt", "./data/databig2.txt");
 		ArrayList<Element> R = Reader(filePathR, d);
 		ArrayList<Element> S = Reader(filePathS, d);
 		ArrayList<ListResultR> result = kNNJoinRS(R, S);

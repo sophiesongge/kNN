@@ -22,7 +22,7 @@ public class ListElem{
 
 	float getDist() { return this.dist; }
 	
-	void setId(int id) { this.id = id; }
+	public void setId(int id) { this.id = id; }
 
 	int getId() { return this.id; }
 

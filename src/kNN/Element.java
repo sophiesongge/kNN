@@ -18,9 +18,9 @@ public class Element{
 		this.setCoord(coord);
 	}
 	
-	void setId(int id) { this.id = id; }
+	public void setId(int id) { this.id = id; }
 
-	int getId() { return this.id; }
+	public int getId() { return this.id; }
 
 	public float[] getCoord() {
 		return coord;
