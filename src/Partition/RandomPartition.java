@@ -44,20 +44,18 @@ public class RandomPartition{
 			String[] split = path.split("/");
 			int n = split.length;
 			String name = split[n-1]; //将每一个在fileList中的文件的文件名读出来
-			if(name.matches("data1.txt")){
+			if(name.matches("databig1.txt")){
 				fileID = 0;
-			}else if(name.matches("data2.txt")){
+			}else if(name.matches("databig2.txt")){
 				fileID = 1;
 			}
-			if(fileID == 0){
-				System.out.println("data1");
-			}else if(fileID == 1){
-				System.out.println("data2");
-			}
+			String[] filename = name.split("\\.");
+			int nn = filename[0].length();
+			String partname = filename[0].substring(0, nn-1);
 			for(int i=0; i<numberOfPartition*numberOfPartition; i++){
-				File newFile = new File(filePath+"/output/partition"+i+".txt");
+				File newFile = new File(filePath+"/output/Random_Partition/"+partname+"_partition"+i+".txt");
 				if(!newFile.exists()){
-					newFile = PartitionBase.CreateFile(filePath+"/output/partition"+i+".txt");
+					newFile = PartitionBase.CreateFile(filePath+"/output/Random_Partition/"+partname+"_partition"+i+".txt");
 				}
 			}
 			
@@ -84,7 +82,7 @@ public class RandomPartition{
 				for(int k=0; k<numberOfPartition; k++){
 					if(fileID == 0){
 						groupID = partID*numberOfPartition + k;
-						File outputFile = new File(filePath+"/output/partition"+groupID+".txt");
+						File outputFile = new File(filePath+"/output/Random_Partition/"+partname+"_partition"+groupID+".txt");
 						sc = new Scanner(outputFile);
 						StringBuilder sb = new StringBuilder();
 						//先读出旧文件内容，并暂时存储在sb中
@@ -95,13 +93,13 @@ public class RandomPartition{
 						sc.close();
 						
 						pw = new PrintWriter(new FileWriter(outputFile), true);
-						pw.println(sb.toString());//写入旧文件内容
-						pw.println("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
+						pw.print(sb.toString());//写入旧文件内容
+						pw.print("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
 						pw.close();
 						System.out.println("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
 					}else if(fileID == 1){
 						groupID = partID + k*numberOfPartition;
-						File outputFile = new File(filePath+"/output/partition"+groupID+".txt");
+						File outputFile = new File(filePath+"/output/Random_Partition/"+partname+"_partition"+groupID+".txt");
 						sc = new Scanner(outputFile);
 						StringBuilder sb = new StringBuilder();
 						while(sc.hasNextLine()){
@@ -111,8 +109,8 @@ public class RandomPartition{
 						sc.close();
 						
 						pw = new PrintWriter(new FileWriter(outputFile), true);
-						pw.println(sb.toString());//写入旧文件内容
-						pw.println("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
+						pw.print(sb.toString());//写入旧文件内容
+						pw.print("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
 						pw.close();
 						System.out.println("<"+"Partition,"+groupID+","+"<"+pv.toString(2)+">"+">"+" "+"Line No."+i+" "+"fileID: "+fileID);
 					}
